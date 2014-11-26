@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="2366456273">
+    <data-source source="LOCAL" name="PostgreSQL - EonLt_DB@localhost" uuid="013960a2-43a3-4459-970c-909e536b0406">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/EonLt_DB</jdbc-url>
+      <libraries />
+    </data-source>
+  </component>
+</project>

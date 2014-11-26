@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="es" ng-app="mySpider">
+<head>
+    <meta charset="UTF-8">
+    <title>Spider "Black Widow"</title>
+    {% load staticfiles %}
+    <script src='{% static "/script/libs/angular.js" %}' type="text/javascript"></script>
+    <script src='{% static "/script/app.js" %}' type="text/javascript"></script>
+</head>
+<body ng-controller="busquedaCtrl">
+<button ng-click="obtenerPalabras()">Palabras</button>
+</body>
+</html>
