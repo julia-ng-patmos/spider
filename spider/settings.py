@@ -64,9 +64,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'EonLt_DB',
         'USER': 'postgres',
-        'PASSWORD': 'hardcore19',
+        'PASSWORD': 'Merlin.Hardcore19',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '3306',
     }
 }
 

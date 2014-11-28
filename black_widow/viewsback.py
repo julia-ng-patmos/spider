@@ -1,7 +1,7 @@
 from requests import Response
 from rest_framework import viewsets, permissions
-from .models import Palabra, Estado, Idioma
-from serializer import PalabraSerializer, EstadoSerializer, IdiomaSerializer, otherSerializer
+from .models import Palabra, Estado, Idioma, Diccionario, TipoDiccionario
+from .serializer import PalabraSerializer, EstadoSerializer, IdiomaSerializer, otherSerializer, DiccionarioSerializer, TipoDiccionarioSerializer
 
 # Create your views here.
 
@@ -9,11 +9,17 @@ class PalabrasViewSet(viewsets.ModelViewSet):
     queryset = Palabra.objects.all()
     serializer_class = PalabraSerializer
 
+class DiccionarioViewSet(viewsets.ModelViewSet):
+    queryset = Diccionario.objects.all()
+    serializer_class = DiccionarioSerializer
+
+class TipoDiccionarioViewSet(viewsets.ModelViewSet):
+    queryset = TipoDiccionario.objects.all()
+    serializer_class = TipoDiccionarioSerializer
 
 class EstadoViewSet(viewsets.ModelViewSet):
     queryset = Estado.objects.all()
     serializer_class = EstadoSerializer
-
 
 class IdiomaViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Idioma.objects.all()

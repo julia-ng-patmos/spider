@@ -25,6 +25,16 @@ myApp.factory('getDiccionario', ['$http', '$q', function ($http, $q) {
                     deferred.reject(error)
                 });
             return deferred.promise;
+        },
+        putDiccionario: function (data) {
+            var deferred = $q.defer();
+            $http.put('http://localhost:8000/rest/diccionarios/',data)
+                .success(function (great) {
+                    deferred.resolve(great)
+                }).error(function (sorry) {
+                    deferred.reject(sorry)
+                })
+            return deferred;
         }
     }
 }]);
@@ -36,7 +46,24 @@ myApp.controller("busquedaCtrl", ['$scope', 'getDiccionario', function ($scope, 
             console.log(great)
             var definicion = getDiccionario.getDefinicion('dog');
             definicion.then(function (yes) {
-                console.log(yes)
+//                for(var i = 0; i < yes.length; i++){
+//                    var miData = {
+//                        "public_name": yes[i].sourceDictionary,
+//                        "private_name": "",
+//                        "description": yes[i].text,
+//                        "estado": "http://localhost:8000/rest/estado/3/",
+//                        "tipo": "http://localhost:8000/rest/tipodiccionario/3/",
+//                        "idioma": "http://localhost:8000/rest/idioma/1/"
+//                    };
+//                    var addDiccionario = getDiccionario.putDiccionario(miData);
+//                    console.log(addDiccionario);
+//                    addDiccionario.then(function (fine) {
+//                        console.log(fine);
+//                    }, function (itsbad) {
+//                        console.log(itsbad);
+//                    })
+//                }
+                console.log(yes);
             }, function (not) {
                 console.log(not)
             })

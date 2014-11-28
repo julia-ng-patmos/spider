@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source name="PostgreSQL - EonLt_DB@localhost" uuid="013960a2-43a3-4459-970c-909e536b0406">
+  <data-source source="LOCAL" name="PostgreSQL - EonLt_DB@localhost" uuid="013960a2-43a3-4459-970c-909e536b0406">
     <database-info product="PostgreSQL" version="9.3.5" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.3 JDBC4 (build 1100)">
       <identifier-quote-string>&quot;</identifier-quote-string>
     </database-info>
@@ -19,6 +19,21 @@
     <schema name="publicidades" catalog="EonLt_DB"/>
     <schema name="questionaries" catalog="EonLt_DB"/>
     <schema name="seguridad" catalog="EonLt_DB"/>
+    <table name="antonimo_habilitado" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
+      <column name="grupo_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4" remarks="Y2FtcG8gZGUgcmVmZXJlbmNpYSBwYXJhIGVsIGdydXBv"/>
+      <column name="usuario_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="etiqueta_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4" remarks="Y2FtcG8gZGUgcmVmZXJlbmNpYSBwYXJhIGxhIGhhYmlsaXRhY2lvbiBvIGRlc2hhYmlsaXRhY2lvbiBkZSB1biBzaW5vbmltbyBwYXJhIHVuYSBldGlxdWV0YQ=="/>
+      <column name="palabra_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="idioma_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="antonimo_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="estado_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4" remarks="ZXN0ZSBlc3RhZG8gaGFyYSByZmVyZW5jaWEgYWwgZXN0YWRvIGRlbCBzaW5vbmltbyBlbiBjdWVzdGlvbiBjb24gcmVzcGVjdG8gYSB1biBncnVwbywgdXN1YXJpbywgZXRpcXVldGEsIG8gcGFsYWJyYS4gZXN0ZSBlc3RhZG8gcHVlZGUgc2VyIGhhYmlsaXRhZG8gbyBkZXNoYWJpbGl0YWRvLCAodGFtYmllbiBzZSBwdWVkZSBwZW5zYXIgZW4gdW5hIGltcGxlbWVudGFjaW9uIGNvbiB1biBlc3RhZG8gcHVibGljbyk="/>
+      <primary-key name="antonimo_habilitado_pkey" columns="etiqueta_id,usuario_id,grupo_id,antonimo_id,idioma_id,palabra_id"/>
+      <foreign-key name="antonimo_habilitado_etiqueta_id_fkey" columns="etiqueta_id" ref-table="etiqueta" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="antonimo_habilitado_antonimo_id_fkey" columns="antonimo_id" ref-table="palabra_antonimo" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="antonimo_habilitado_usuario_id_fkey" columns="usuario_id" ref-table="usuario" ref-schema="datos_usuario" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="antonimo_habilitado_idioma_id_fkey" columns="idioma_id" ref-table="idioma" ref-schema="geolocalizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="antonimo_habilitado_grupo_id_fkey" columns="grupo_id" ref-table="grupo" ref-schema="organizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
     <table name="calificacion" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
       <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnY29udGVuaWRvX2lkaW9tYS5jYWxpZmljYWNpb25faWRfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
       <column name="nombre" sqlType="varchar" precision="45" scale="0" nullable="false" jdbcType="12"/>
@@ -46,25 +61,126 @@
       <column name="definicion_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="estado_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <primary-key name="pk_active_def_id" columns="grupo_id,usuario_id,etiqueta_id,palabra_id,definicion_id,idioma_id"/>
-      <foreign-key name="fk_definicion_palabra_tag_pal" columns="definicion_id" ref-table="definicion_palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="palabra_id" update-rule="3" delete-rule="0" deferrability="2"/>
+      <foreign-key name="fk_definicion_palabra_tag_pal" columns="definicion_id" ref-table="definicion_palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
       <foreign-key name="fk_definicion_palabra_tag_state" columns="estado_id" ref-table="estado" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_definicion_palabra_tag" columns="grupo_id,usuario_id,etiqueta_id,idioma_id,palabra_id" ref-table="palabra_habilitada" ref-schema="contenido_idioma" ref-catalog="" ref-columns="grupo_id,usuario_id,etiqueta_id,idioma_id,palabra_id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="definicion_palabra" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
-      <column name="palabra_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="definicion" sqlType="varchar" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnY29udGVuaWRvX2lkaW9tYS5kZWZpbmljaW9uX3BhbGFicmFfaWRfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
+      <column name="definicion" sqlType="text" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
       <column name="idioma_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="pk_definicion_palabra_id" columns="palabra_id"/>
-      <foreign-key name="fk_definicion_palabra_palabra" columns="palabra_id" ref-table="palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
+      <column name="palabra_id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnY29udGVuaWRvX2lkaW9tYS5kZWZpbmljaW9uX3BhbGFicmFfaWRfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
+      <column name="user_owner" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="pk_definicion_palabra_id" columns="id"/>
+      <foreign-key name="palabra_definicion" columns="palabra_id" ref-table="palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="user_owner_definition" columns="user_owner" ref-table="usuario" ref-schema="datos_usuario" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_definicion_palabra_idioma" columns="idioma_id" ref-table="idioma" ref-schema="geolocalizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="fk_definicion_palabra_tag_pal" table="definicion_habilitada" schema="contenido_idioma" catalog="EonLt_DB" columns="definicion_id"/>
+      <exported-key name="definicion_id_diccionario" table="diccionario_definiciones" schema="contenido_idioma" catalog="EonLt_DB" columns="definicion_id"/>
       <exported-key name="fk_user_own_definicion_palabra_definicion_palabra" table="usuario_dueno_definicion_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="definicion_palabra_id"/>
+      <index name="fki_palabra_definicion" unique="false" columns="palabra_id"/>
+      <index name="fki_user_owner_definition" unique="false" columns="user_owner"/>
+    </table>
+    <table name="definicion_palabra_id_seq" schema="contenido_idioma" catalog="EonLt_DB" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="diccionario" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
+      <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnY29udGVuaWRvX2lkaW9tYS5kaWNjaW9uYXJpb19pZF9zZXEnOjpyZWdjbGFzcyk=" autoIncrement="true"/>
+      <column name="public_name" sqlType="varchar" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="private_name" sqlType="varchar" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="date_create" sqlType="timestamp" precision="29" scale="6" nullable="false" jdbcType="93"/>
+      <column name="description" sqlType="text" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="estado_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="tipo_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4" def="Mw=="/>
+      <column name="idioma_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="diccionario_pkey" columns="id"/>
+      <foreign-key name="fk_estado_id" columns="estado_id" ref-table="estado" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="dictionar_type" columns="tipo_id" ref-table="tipo_diccionario" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="idioma_id_dictionar" columns="idioma_id" ref-table="idioma" ref-schema="geolocalizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="dictionar_id_antonyms" table="diccionario_antonimos" schema="contenido_idioma" catalog="EonLt_DB" columns="dictionar_id"/>
+      <exported-key name="diccionario_id_palabra" table="diccionario_definiciones" schema="contenido_idioma" catalog="EonLt_DB" columns="diccionario_id"/>
+      <exported-key name="diccionario_habilitado_dictionario_id_fkey" table="diccionario_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="dictionario_id"/>
+      <exported-key name="dictionar_id_sinonyms" table="diccionario_sinonimos" schema="contenido_idioma" catalog="EonLt_DB" columns="dictionar_id"/>
+      <index name="unique_public_name" unique="true" columns="public_name"/>
+      <index name="fki_dictionar_type" unique="false" columns="tipo_id"/>
+      <index name="fki_estado_id_dictionar" unique="false" columns="estado_id"/>
+      <index name="fki_idioma_id_dictionar" unique="false" columns="idioma_id"/>
+    </table>
+    <table name="diccionario_antonimos" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
+      <column name="dictionar_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="palabra_antonyms_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="dictionar_antonyms_pkey" columns="dictionar_id,palabra_antonyms_id"/>
+      <foreign-key name="dictionar_id_antonyms" columns="dictionar_id" ref-table="diccionario" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="antonyms_id_dictionar" columns="palabra_antonyms_id" ref-table="palabra_antonimo" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="fki_antonyms_id_dictionar" unique="false" columns="palabra_antonyms_id"/>
+    </table>
+    <table name="diccionario_definiciones" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
+      <column name="diccionario_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="definicion_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="habilitada" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <primary-key name="diccionario_definiciones_pkey" columns="diccionario_id,definicion_id"/>
+      <foreign-key name="definicion_id_diccionario" columns="definicion_id" ref-table="definicion_palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="diccionario_id_palabra" columns="diccionario_id" ref-table="diccionario" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="fki_definicion_id_diccionario" unique="false" columns="definicion_id"/>
+    </table>
+    <table name="diccionario_habilitado" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
+      <column name="grupo_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="usuario_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="etiqueta_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="palabra_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="idioma_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="dictionario_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="estado_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="diccionario_habilitado_pkey" columns="etiqueta_id,usuario_id,grupo_id,dictionario_id,idioma_id,palabra_id"/>
+      <foreign-key name="diccionario_habilitado_dictionario_id_fkey" columns="dictionario_id" ref-table="diccionario" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="diccionario_habilitado_etiqueta_id_fkey" columns="etiqueta_id" ref-table="etiqueta" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="diccionario_habilitado_usuario_id_fkey" columns="usuario_id" ref-table="usuario" ref-schema="datos_usuario" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="diccionario_habilitado_idioma_id_fkey" columns="idioma_id" ref-table="idioma" ref-schema="geolocalizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="diccionario_habilitado_grupo_id_fkey" columns="grupo_id" ref-table="grupo" ref-schema="organizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="diccionario_id_seq" schema="contenido_idioma" catalog="EonLt_DB" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="diccionario_sinonimos" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
+      <column name="dictionar_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="palabra_synonym_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="dictionar_synonyms_pkey" columns="dictionar_id,palabra_synonym_id"/>
+      <foreign-key name="dictionar_id_sinonyms" columns="dictionar_id" ref-table="diccionario" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="synonym_id_dictionar" columns="palabra_synonym_id" ref-table="palabra_sinonimo" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="fki_synonym_id_dictionar" unique="false" columns="palabra_synonym_id"/>
+    </table>
+    <table name="diccionario_traduccion" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
+      <column name="diccionario_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="traduccion_id_palabra_origen" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="traduccion_id_palabra_destino" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="diccionario_llave_primaria" columns="diccionario_id,traduccion_id_palabra_origen,traduccion_id_palabra_destino"/>
+      <foreign-key name="traduccion_id_diccionario" columns="traduccion_id_palabra_origen,traduccion_id_palabra_destino" ref-table="traduccion_de_palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="palabra_origen,palabra_destino" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="fki_traduccion_id_diccionario" unique="false" columns="traduccion_id_palabra_origen,traduccion_id_palabra_destino"/>
     </table>
     <table name="estado" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
       <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnY29udGVuaWRvX2lkaW9tYS5lc3RhZG9faWRfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
       <column name="nombre" sqlType="varchar" precision="45" scale="0" nullable="false" jdbcType="12"/>
       <primary-key name="pk_estado_id" columns="id"/>
       <exported-key name="fk_definicion_palabra_tag_state" table="definicion_habilitada" schema="contenido_idioma" catalog="EonLt_DB" columns="estado_id"/>
+      <exported-key name="fk_estado_id" table="diccionario" schema="contenido_idioma" catalog="EonLt_DB" columns="estado_id"/>
       <exported-key name="fk_etiqueta_estado_id" table="etiqueta" schema="contenido_idioma" catalog="EonLt_DB" columns="estado_id"/>
       <exported-key name="fk_active_tag_state" table="etiqueta_habilitada" schema="contenido_idioma" catalog="EonLt_DB" columns="estado_id"/>
       <exported-key name="fk_etiqueta_tiene_etiqueta_estado1" table="etiqueta_tiene_etiqueta" schema="contenido_idioma" catalog="EonLt_DB" columns="estado_id"/>
@@ -126,6 +242,8 @@
       <primary-key name="pk_etiqueta_id" columns="id"/>
       <foreign-key name="fk_etiqueta_estado_id" columns="estado_id" ref-table="estado" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_etiqueta_idioma" columns="idioma_id" ref-table="idioma" ref-schema="geolocalizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="antonimo_habilitado_etiqueta_id_fkey" table="antonimo_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="etiqueta_id"/>
+      <exported-key name="diccionario_habilitado_etiqueta_id_fkey" table="diccionario_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="etiqueta_id"/>
       <exported-key name="fk_active_tag_tag" table="etiqueta_habilitada" schema="contenido_idioma" catalog="EonLt_DB" columns="etiqueta_id"/>
       <exported-key name="fk_etiqueta_tiene_etiqueta_etiqueta1" table="etiqueta_tiene_etiqueta" schema="contenido_idioma" catalog="EonLt_DB" columns="etiqueta_id_index"/>
       <exported-key name="fk_etiqueta_tiene_etiqueta_etiqueta2" table="etiqueta_tiene_etiqueta" schema="contenido_idioma" catalog="EonLt_DB" columns="etiqueta_id"/>
@@ -137,6 +255,7 @@
       <exported-key name="fk_grupo_has_tag_tag" table="grupo_tiene_etiqueta" schema="contenido_idioma" catalog="EonLt_DB" columns="etiqueta_id"/>
       <exported-key name="fk_institucion_has_tag_tag" table="institucion_tiene_etiqueta" schema="contenido_idioma" catalog="EonLt_DB" columns="etiqueta_id"/>
       <exported-key name="fk_palabra_tiene_etiqueta_etiqueta" table="palabra_tiene_etiqueta" schema="contenido_idioma" catalog="EonLt_DB" columns="etiqueta_id"/>
+      <exported-key name="etiqueta_id_sinonimo" table="sinonimo_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="etiqueta_id"/>
       <exported-key name="fk_traduccion_de_etiqueta_etiqueta1" table="traduccion_de_etiqueta" schema="contenido_idioma" catalog="EonLt_DB" columns="etiqueta_origen"/>
       <exported-key name="fk_traduccion_de_etiqueta_etiqueta2" table="traduccion_de_etiqueta" schema="contenido_idioma" catalog="EonLt_DB" columns="etiqueta_destino"/>
       <exported-key name="fk_user_own_definicion_palabra_tag" table="usuario_dueno_definicion_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="etiqueta_id"/>
@@ -364,12 +483,15 @@
       <column name="estado_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4" def="Mw=="/>
       <column name="objeto_trans" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
       <column name="id_ascii" sqlType="_int4" precision="10" scale="0" nullable="true" jdbcType="2003"/>
-      <column name="verificado" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4" def="MA=="/>
       <primary-key name="pk_palabra_id" columns="id"/>
       <foreign-key name="fk_palabra_estado_id" columns="estado_id" ref-table="estado" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_palabla_idioma" columns="idioma_id" ref-table="idioma" ref-schema="geolocalizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <exported-key name="fk_definicion_palabra_palabra" table="definicion_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_id"/>
+      <exported-key name="palabra_definicion" table="definicion_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_id"/>
+      <exported-key name="antonimo_id_palabra" table="palabra_antonimo" schema="contenido_idioma" catalog="EonLt_DB" columns="antonimo"/>
+      <exported-key name="palabra_id_antonimo" table="palabra_antonimo" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_id"/>
       <exported-key name="fk_palabra_tag_pal" table="palabra_habilitada" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_id"/>
+      <exported-key name="palabra_id_sinonimo" table="palabra_sinonimo" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_id"/>
+      <exported-key name="sinonimo_id_palabra" table="palabra_sinonimo" schema="contenido_idioma" catalog="EonLt_DB" columns="sinonimo"/>
       <exported-key name="fk_palabra_tiene_etiqueta_palabra" table="palabra_tiene_etiqueta" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_id"/>
       <exported-key name="fk_palabra_tiene_imagen_palabra" table="palabra_tiene_imagen" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_id"/>
       <exported-key name="fk_palabra_tiene_sonido_palabra" table="palabra_tiene_sonido" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_id"/>
@@ -377,6 +499,24 @@
       <exported-key name="fk_traduccion_de_palabra_palabra1" table="traduccion_de_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_origen"/>
       <exported-key name="fk_traduccion_de_palabra_palabra2" table="traduccion_de_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_destino"/>
       <exported-key name="fk_user_own_palabra_palabra" table="usuario_dueno_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_id"/>
+    </table>
+    <table name="palabra_antonimo" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
+      <column name="id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="palabra_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="antonimo" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="idioma_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="user_owner" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="palabra_antonimo_pkey" columns="id"/>
+      <foreign-key name="antonimo_id_palabra" columns="antonimo" ref-table="palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="palabra_id_antonimo" columns="palabra_id" ref-table="palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="user_owner_id_antonimos" columns="user_owner" ref-table="usuario" ref-schema="datos_usuario" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="idioma_id_antonimos" columns="idioma_id" ref-table="idioma" ref-schema="geolocalizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="antonimo_habilitado_antonimo_id_fkey" table="antonimo_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="antonimo_id"/>
+      <exported-key name="antonyms_id_dictionar" table="diccionario_antonimos" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_antonyms_id"/>
+      <index name="fki_antonimo_id_palabra" unique="false" columns="antonimo"/>
+      <index name="fki_idioma_id_antonimos" unique="false" columns="idioma_id"/>
+      <index name="fki_palabra_id_antonimo" unique="false" columns="palabra_id"/>
+      <index name="fki_user_owner_id_antonimos" unique="false" columns="user_owner"/>
     </table>
     <table name="palabra_habilitada" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
       <column name="grupo_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
@@ -398,6 +538,36 @@
       <exported-key name="fk_video_tag" table="video_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="grupo_id,usuario_id,etiqueta_id,idioma_id,palabra_id"/>
     </table>
     <table name="palabra_id_seq" schema="contenido_idioma" catalog="EonLt_DB" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="palabra_sinonimo" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
+      <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnY29udGVuaWRvX2lkaW9tYS5wYWxhYnJhX3Npbm9uaW1vX2lkX3NlcSc6OnJlZ2NsYXNzKQ==" autoIncrement="true"/>
+      <column name="palabra_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="sinonimo" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="idioma_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="user_owner" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="palabra_sinonimo_pkey" columns="id"/>
+      <foreign-key name="palabra_id_sinonimo" columns="palabra_id" ref-table="palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="sinonimo_id_palabra" columns="sinonimo" ref-table="palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="user_owner_id_sinonimo" columns="user_owner" ref-table="usuario" ref-schema="datos_usuario" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="idioma_id_sinonimo" columns="idioma_id" ref-table="idioma" ref-schema="geolocalizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="synonym_id_dictionar" table="diccionario_sinonimos" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_synonym_id"/>
+      <exported-key name="sinonimo_id_habilitado" table="sinonimo_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="sinonimo_id"/>
+      <index name="fki_idioma_id_sinonimo" unique="false" columns="idioma_id"/>
+      <index name="fki_palabra_id_sinonimo" unique="false" columns="palabra_id"/>
+      <index name="fki_sinonimo_id_palabra" unique="false" columns="sinonimo"/>
+      <index name="fki_user_owner_id_sinonimo" unique="false" columns="user_owner"/>
+    </table>
+    <table name="palabra_sinonimo_id_seq" schema="contenido_idioma" catalog="EonLt_DB" type="SEQUENCE">
       <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
       <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="start_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
@@ -445,6 +615,21 @@
       <foreign-key name="fk_palabra_tiene_video_palabra" columns="palabra_id" ref-table="palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
       <foreign-key name="fk_palabra_tiene_video_video" columns="video_id" ref-table="video" ref-schema="multimedia" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
     </table>
+    <table name="sinonimo_habilitado" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE" remarks="dGFibGEgcXVlIHBlcm1pdGlyYSBoYWJpbGl0YXIgeSBkZXNoYWJpbGl0YXIgc2lub25pbW9zIGEgdW4gZ3J1cG8gZW4gcGVydGljdWxhciBzZWEgdW4gdXN1YXJpbyAgbyB2YXJpb3M=">
+      <column name="grupo_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4" remarks="Y2FtcG8gZGUgcmVmZXJlbmNpYSBwYXJhIGVsIGdydXBv"/>
+      <column name="usuario_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="etiqueta_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4" remarks="Y2FtcG8gZGUgcmVmZXJlbmNpYSBwYXJhIGxhIGhhYmlsaXRhY2lvbiBvIGRlc2hhYmlsaXRhY2lvbiBkZSB1biBzaW5vbmltbyBwYXJhIHVuYSBldGlxdWV0YQ=="/>
+      <column name="palabra_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4" remarks="ZXN0YSBwYWxhYnJhIGhhY2UgcmVmZXJlbmNpYSBhIGxhIHBhbGFicmEgaGFiaWxpdGFkYSBjb24gY2llcnRhIGRlZmluaWNpb24gIChlc3RvIHNlcmEgdmFyaWFibGVzIGdhcmNpYXMgYSBxdWUgIHBlcm1pdGlyYSBkZWNpciBxdWUgcGFsYWJyYSBjb24gcXVlIGRlZmluaWNpb24gc2UgZGVzaGFiaWxpdGEgYSBxdWUp"/>
+      <column name="idioma_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="sinonimo_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4" remarks="c2lub25pbW8gYWwgcXVlIHNlIGhhcmEgcmVmZXJlbmNpYQ=="/>
+      <column name="estado_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4" remarks="ZXN0ZSBlc3RhZG8gaGFyYSByZmVyZW5jaWEgYWwgZXN0YWRvIGRlbCBzaW5vbmltbyBlbiBjdWVzdGlvbiBjb24gcmVzcGVjdG8gYSB1biBncnVwbywgdXN1YXJpbywgZXRpcXVldGEsIG8gcGFsYWJyYS4gZXN0ZSBlc3RhZG8gcHVlZGUgc2VyIGhhYmlsaXRhZG8gbyBkZXNoYWJpbGl0YWRvLCAodGFtYmllbiBzZSBwdWVkZSBwZW5zYXIgZW4gdW5hIGltcGxlbWVudGFjaW9uIGNvbiB1biBlc3RhZG8gcHVibGljbyk="/>
+      <primary-key name="sinonyms_primary" columns="grupo_id,usuario_id,etiqueta_id,palabra_id,idioma_id,sinonimo_id"/>
+      <foreign-key name="etiqueta_id_sinonimo" columns="etiqueta_id" ref-table="etiqueta" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="sinonimo_id_habilitado" columns="sinonimo_id" ref-table="palabra_sinonimo" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="usuario_id_sinonimo" columns="usuario_id" ref-table="usuario" ref-schema="datos_usuario" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="idioma_id_sinonimo" columns="idioma_id" ref-table="idioma" ref-schema="geolocalizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="grupo_id_sinonimo" columns="grupo_id" ref-table="grupo" ref-schema="organizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
     <table name="sonido_habilitado" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
       <column name="grupo_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="usuario_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
@@ -457,6 +642,25 @@
       <foreign-key name="fk_sonido_tag_state" columns="estado_id" ref-table="estado" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_sonido_tag" columns="grupo_id,usuario_id,etiqueta_id,idioma_id,palabra_id" ref-table="palabra_habilitada" ref-schema="contenido_idioma" ref-catalog="" ref-columns="grupo_id,usuario_id,etiqueta_id,idioma_id,palabra_id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_sonido_tag_pal" columns="sonido_id" ref-table="sonido" ref-schema="multimedia" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
+    </table>
+    <table name="tipo_diccionario" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
+      <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnY29udGVuaWRvX2lkaW9tYS50aXBvX2RpY2Npb25hcmlvX2lkX3NlcSc6OnJlZ2NsYXNzKQ==" autoIncrement="true"/>
+      <column name="name" sqlType="varchar" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="tipo_diccionario_pkey" columns="id"/>
+      <exported-key name="dictionar_type" table="diccionario" schema="contenido_idioma" catalog="EonLt_DB" columns="tipo_id"/>
+      <index name="unique_name" unique="true" columns="name"/>
+    </table>
+    <table name="tipo_diccionario_id_seq" schema="contenido_idioma" catalog="EonLt_DB" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
     </table>
     <table name="tipo_etiqueta" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
       <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnY29udGVuaWRvX2lkaW9tYS50aXBvX2V0aXF1ZXRhX2lkX3NlcSc6OnJlZ2NsYXNzKQ==" autoIncrement="true"/>
@@ -507,6 +711,7 @@
       <foreign-key name="fk_traduccion_de_palabra_palabra1" columns="palabra_origen" ref-table="palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
       <foreign-key name="fk_traduccion_de_palabra_palabra2" columns="palabra_destino" ref-table="palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
       <foreign-key name="fk_traduccion_de_palabra_idioma" columns="idioma_id" ref-table="idioma" ref-schema="geolocalizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="traduccion_id_diccionario" table="diccionario_traduccion" schema="contenido_idioma" catalog="EonLt_DB" columns="traduccion_id_palabra_origen,traduccion_id_palabra_destino"/>
       <exported-key name="fk_traduccion_de_palabra_tag_pal" table="traduccion_palabra_habilitada" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_destino,palabra_id"/>
     </table>
     <table name="traduccion_etiqueta_habilitada" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
@@ -555,7 +760,7 @@
       <column name="etiqueta_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="definicion_palabra_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <primary-key name="pk_usuario_own_def" columns="etiqueta_id,definicion_palabra_id"/>
-      <foreign-key name="fk_user_own_definicion_palabra_definicion_palabra" columns="definicion_palabra_id" ref-table="definicion_palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="palabra_id" update-rule="3" delete-rule="0" deferrability="2"/>
+      <foreign-key name="fk_user_own_definicion_palabra_definicion_palabra" columns="definicion_palabra_id" ref-table="definicion_palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
       <foreign-key name="fk_user_own_definicion_palabra_tag" columns="etiqueta_id" ref-table="etiqueta" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
     </table>
     <table name="usuario_dueno_etiqueta" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
@@ -686,6 +891,12 @@
       <primary-key name="pk_usuario_id" columns="id"/>
       <foreign-key name="fk_usuario_telefono1" columns="telefono_id" ref-table="telefono" ref-schema="datos_usuario" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_usuario_direccion1" columns="direccion_id" ref-table="direccion" ref-schema="geolocalizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="antonimo_habilitado_usuario_id_fkey" table="antonimo_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="usuario_id"/>
+      <exported-key name="user_owner_definition" table="definicion_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="user_owner"/>
+      <exported-key name="diccionario_habilitado_usuario_id_fkey" table="diccionario_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="usuario_id"/>
+      <exported-key name="user_owner_id_antonimos" table="palabra_antonimo" schema="contenido_idioma" catalog="EonLt_DB" columns="user_owner"/>
+      <exported-key name="user_owner_id_sinonimo" table="palabra_sinonimo" schema="contenido_idioma" catalog="EonLt_DB" columns="user_owner"/>
+      <exported-key name="usuario_id_sinonimo" table="sinonimo_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="usuario_id"/>
       <exported-key name="fk_usuario_has_tag_usuario" table="usuario_tiene_etiqueta" schema="contenido_idioma" catalog="EonLt_DB" columns="usuario_id"/>
       <exported-key name="fk_correo_usuario1" table="correo" schema="datos_usuario" catalog="EonLt_DB" columns="usuario_id"/>
       <exported-key name="fk_telefono_usuario1" table="telefono" schema="datos_usuario" catalog="EonLt_DB" columns="usuario_id"/>
@@ -793,11 +1004,17 @@
       <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnZ2VvbG9jYWxpemFjaW9uLmlkaW9tYV9pZF9zZXEnOjpyZWdjbGFzcyk=" autoIncrement="true"/>
       <column name="nombre" sqlType="varchar" precision="45" scale="0" nullable="false" jdbcType="12"/>
       <primary-key name="pk_idioma_id" columns="id"/>
+      <exported-key name="antonimo_habilitado_idioma_id_fkey" table="antonimo_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
       <exported-key name="fk_definicion_palabra_idioma" table="definicion_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
+      <exported-key name="idioma_id_dictionar" table="diccionario" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
+      <exported-key name="diccionario_habilitado_idioma_id_fkey" table="diccionario_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
       <exported-key name="fk_etiqueta_idioma" table="etiqueta" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
       <exported-key name="fk_active_tag_lang" table="etiqueta_habilitada" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
       <exported-key name="fk_frase_idioma" table="frase" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
       <exported-key name="fk_palabla_idioma" table="palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
+      <exported-key name="idioma_id_antonimos" table="palabra_antonimo" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
+      <exported-key name="idioma_id_sinonimo" table="palabra_sinonimo" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
+      <exported-key name="idioma_id_sinonimo" table="sinonimo_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
       <exported-key name="fk_tipo_etiqueta" table="tipo_etiqueta" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
       <exported-key name="fk_traduccion_de_etiqueta_idioma" table="traduccion_de_etiqueta" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
       <exported-key name="fk_traduccion_de_frase_idioma" table="traduccion_de_frase" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
@@ -1654,6 +1871,18 @@
       <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
     </table>
+    <table name="scores_user" schema="juegos" catalog="EonLt_DB" type="TABLE">
+      <column name="id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="good" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="bad" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="juego" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fecha_jugada" sqlType="timestamp" precision="29" scale="6" nullable="false" jdbcType="93"/>
+      <column name="user_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="score_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="lifes" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="level" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="scores_user_pkey" columns="id"/>
+    </table>
     <table name="skin" schema="juegos" catalog="EonLt_DB" type="TABLE">
       <column name="id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="nombre" sqlType="varchar" precision="45" scale="0" nullable="false" jdbcType="12"/>
@@ -1782,7 +2011,10 @@
       <primary-key name="pk_grupo_id" columns="id,institucion_id"/>
       <foreign-key name="fk_grupo_direccion1" columns="direccion_id" ref-table="direccion" ref-schema="geolocalizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_grupo_institucion1" columns="institucion_id" ref-table="institucion" ref-schema="organizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="antonimo_habilitado_grupo_id_fkey" table="antonimo_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="grupo_id"/>
+      <exported-key name="diccionario_habilitado_grupo_id_fkey" table="diccionario_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="grupo_id"/>
       <exported-key name="fk_grupo_has_tag_grupo" table="grupo_tiene_etiqueta" schema="contenido_idioma" catalog="EonLt_DB" columns="grupo_id"/>
+      <exported-key name="grupo_id_sinonimo" table="sinonimo_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="grupo_id"/>
       <exported-key name="fk_grupo_administrado_usuario_grupo1" table="grupo_administrado_usuario" schema="organizacion" catalog="EonLt_DB" columns="grupo_id"/>
       <exported-key name="fk_grupo_tiene_alumno_grupo1" table="grupo_tiene_alumno" schema="organizacion" catalog="EonLt_DB" columns="grupo_id"/>
       <exported-key name="fk_grupo_tiene_profesor_grupo1" table="grupo_tiene_profesor" schema="organizacion" catalog="EonLt_DB" columns="grupo_id"/>
@@ -14408,7 +14640,7 @@
     <procedure name="pg_identify_object" schema="pg_catalog" catalog="EonLt_DB" type="2" remarks="Z2V0IG1hY2hpbmUtcGFyc2VhYmxlIGlkZW50aWZpY2F0aW9uIG9mIFNRTCBvYmplY3Q=">
       <prototype>
         <parameter name="classid" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="1"/>
-        <parameter name="objid" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="2"/>
+        <parameter name="objid" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="2"/>
         <parameter name="subobjid" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="3"/>
         <parameter name="type" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="4"/>
         <parameter name="schema" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="5"/>
@@ -14638,7 +14870,7 @@
     </procedure>
     <procedure name="pg_sequence_parameters" schema="pg_catalog" catalog="EonLt_DB" type="2" remarks="c2VxdWVuY2UgcGFyYW1ldGVycywgZm9yIHVzZSBieSBpbmZvcm1hdGlvbiBzY2hlbWE=">
       <prototype>
-        <parameter name="sequence_oid" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="1"/>
+        <parameter name="sequence_oid" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="1"/>
         <parameter name="start_value" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="4" index="2"/>
         <parameter name="minimum_value" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="4" index="3"/>
         <parameter name="maximum_value" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="4" index="4"/>
