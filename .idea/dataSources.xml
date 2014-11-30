@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="2975247772">
-    <data-source source="LOCAL" name="PostgreSQL - EonLt_DB@localhost" uuid="013960a2-43a3-4459-970c-909e536b0406">
+  <component name="DataSourceManagerImpl" format="xml" hash="2633587207">
+    <data-source source="LOCAL" name="Django default" uuid="92647fed-a838-4769-86fc-6d1a839b60c8">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:3306/EonLt_DB</jdbc-url>
-      <user-name>postgres</user-name>
-      <user-password>dfe7dfcfdfd8dfc6dfc3dfc4df84dfe2dfcbdfd8dfcedfc9dfc5dfd8dfcfdf9bdf93</user-password>
-      <schema-pattern>EonLt_DB.*</schema-pattern>
-      <default-schemas>EonLt_DB.pg_catalog EonLt_DB.public</default-schemas>
-      <libraries />
+      <jdbc-url>jdbc:postgresql://127.0.0.1:3306/EonLt_DB</jdbc-url>
+      <libraries>
+        <library>
+          <url>file://$USER_HOME$/Library/Preferences/PyCharm30/jdbc-drivers/postgresql-driver-license.txt</url>
+        </library>
+        <library>
+          <url>file://$USER_HOME$/Library/Preferences/PyCharm30/jdbc-drivers/postgresql-9.3-1100.jdbc4.jar</url>
+        </library>
+      </libraries>
     </data-source>
   </component>
 </project>
-

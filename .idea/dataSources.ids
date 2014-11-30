@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source source="LOCAL" name="PostgreSQL - EonLt_DB@localhost" uuid="013960a2-43a3-4459-970c-909e536b0406">
+  <data-source name="Django default" uuid="92647fed-a838-4769-86fc-6d1a839b60c8">
     <database-info product="PostgreSQL" version="9.3.5" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.3 JDBC4 (build 1100)">
       <identifier-quote-string>&quot;</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact"/>
     <schema name="contenido_idioma" catalog="EonLt_DB"/>
     <schema name="datos_usuario" catalog="EonLt_DB"/>
+    <schema name="frontend" catalog="EonLt_DB"/>
     <schema name="geolocalizacion" catalog="EonLt_DB"/>
     <schema name="historico" catalog="EonLt_DB"/>
     <schema name="information_schema" catalog="EonLt_DB"/>
@@ -70,16 +71,18 @@
       <column name="definicion" sqlType="text" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
       <column name="idioma_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="palabra_id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnY29udGVuaWRvX2lkaW9tYS5kZWZpbmljaW9uX3BhbGFicmFfaWRfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
-      <column name="user_owner" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="user_owner_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ascii_id" sqlType="_int4" precision="10" scale="0" nullable="true" jdbcType="2003"/>
+      <column name="habilitada" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7" def="dHJ1ZQ=="/>
+      <column name="diccionario_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4" def="Ng=="/>
       <primary-key name="pk_definicion_palabra_id" columns="id"/>
-      <foreign-key name="palabra_definicion" columns="palabra_id" ref-table="palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="user_owner_definition" columns="user_owner" ref-table="usuario" ref-schema="datos_usuario" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="fk_definicion_palabra_idioma" columns="idioma_id" ref-table="idioma" ref-schema="geolocalizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_dictionary_id" columns="diccionario_id" ref-table="diccionario" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_palabra_id" columns="palabra_id" ref-table="palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_user_id" columns="user_owner_id" ref-table="usuario" ref-schema="datos_usuario" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_idioma_id" columns="idioma_id" ref-table="idioma" ref-schema="geolocalizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="fk_definicion_palabra_tag_pal" table="definicion_habilitada" schema="contenido_idioma" catalog="EonLt_DB" columns="definicion_id"/>
-      <exported-key name="definicion_id_diccionario" table="diccionario_definiciones" schema="contenido_idioma" catalog="EonLt_DB" columns="definicion_id"/>
       <exported-key name="fk_user_own_definicion_palabra_definicion_palabra" table="usuario_dueno_definicion_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="definicion_palabra_id"/>
-      <index name="fki_palabra_definicion" unique="false" columns="palabra_id"/>
-      <index name="fki_user_owner_definition" unique="false" columns="user_owner"/>
+      <index name="fki_dictionary_id" unique="false" columns="diccionario_id"/>
     </table>
     <table name="definicion_palabra_id_seq" schema="contenido_idioma" catalog="EonLt_DB" type="SEQUENCE">
       <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
@@ -106,8 +109,8 @@
       <foreign-key name="fk_estado_id" columns="estado_id" ref-table="estado" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="dictionar_type" columns="tipo_id" ref-table="tipo_diccionario" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="idioma_id_dictionar" columns="idioma_id" ref-table="idioma" ref-schema="geolocalizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_dictionary_id" table="definicion_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="diccionario_id"/>
       <exported-key name="dictionar_id_antonyms" table="diccionario_antonimos" schema="contenido_idioma" catalog="EonLt_DB" columns="dictionar_id"/>
-      <exported-key name="diccionario_id_palabra" table="diccionario_definiciones" schema="contenido_idioma" catalog="EonLt_DB" columns="diccionario_id"/>
       <exported-key name="diccionario_habilitado_dictionario_id_fkey" table="diccionario_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="dictionario_id"/>
       <exported-key name="dictionar_id_sinonyms" table="diccionario_sinonimos" schema="contenido_idioma" catalog="EonLt_DB" columns="dictionar_id"/>
       <index name="unique_public_name" unique="true" columns="public_name"/>
@@ -122,15 +125,6 @@
       <foreign-key name="dictionar_id_antonyms" columns="dictionar_id" ref-table="diccionario" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="antonyms_id_dictionar" columns="palabra_antonyms_id" ref-table="palabra_antonimo" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="fki_antonyms_id_dictionar" unique="false" columns="palabra_antonyms_id"/>
-    </table>
-    <table name="diccionario_definiciones" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
-      <column name="diccionario_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="definicion_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="habilitada" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
-      <primary-key name="diccionario_definiciones_pkey" columns="diccionario_id,definicion_id"/>
-      <foreign-key name="definicion_id_diccionario" columns="definicion_id" ref-table="definicion_palabra" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="diccionario_id_palabra" columns="diccionario_id" ref-table="diccionario" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="fki_definicion_id_diccionario" unique="false" columns="definicion_id"/>
     </table>
     <table name="diccionario_habilitado" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
       <column name="grupo_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
@@ -486,7 +480,7 @@
       <primary-key name="pk_palabra_id" columns="id"/>
       <foreign-key name="fk_palabra_estado_id" columns="estado_id" ref-table="estado" ref-schema="contenido_idioma" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_palabla_idioma" columns="idioma_id" ref-table="idioma" ref-schema="geolocalizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <exported-key name="palabra_definicion" table="definicion_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_id"/>
+      <exported-key name="fk_palabra_id" table="definicion_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_id"/>
       <exported-key name="antonimo_id_palabra" table="palabra_antonimo" schema="contenido_idioma" catalog="EonLt_DB" columns="antonimo"/>
       <exported-key name="palabra_id_antonimo" table="palabra_antonimo" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_id"/>
       <exported-key name="fk_palabra_tag_pal" table="palabra_habilitada" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_id"/>
@@ -499,6 +493,7 @@
       <exported-key name="fk_traduccion_de_palabra_palabra1" table="traduccion_de_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_origen"/>
       <exported-key name="fk_traduccion_de_palabra_palabra2" table="traduccion_de_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_destino"/>
       <exported-key name="fk_user_own_palabra_palabra" table="usuario_dueno_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="palabra_id"/>
+      <index name="unique_id_ascii" unique="true" columns="id_ascii"/>
     </table>
     <table name="palabra_antonimo" schema="contenido_idioma" catalog="EonLt_DB" type="TABLE">
       <column name="id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
@@ -892,7 +887,7 @@
       <foreign-key name="fk_usuario_telefono1" columns="telefono_id" ref-table="telefono" ref-schema="datos_usuario" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_usuario_direccion1" columns="direccion_id" ref-table="direccion" ref-schema="geolocalizacion" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="antonimo_habilitado_usuario_id_fkey" table="antonimo_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="usuario_id"/>
-      <exported-key name="user_owner_definition" table="definicion_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="user_owner"/>
+      <exported-key name="fk_user_id" table="definicion_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="user_owner_id"/>
       <exported-key name="diccionario_habilitado_usuario_id_fkey" table="diccionario_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="usuario_id"/>
       <exported-key name="user_owner_id_antonimos" table="palabra_antonimo" schema="contenido_idioma" catalog="EonLt_DB" columns="user_owner"/>
       <exported-key name="user_owner_id_sinonimo" table="palabra_sinonimo" schema="contenido_idioma" catalog="EonLt_DB" columns="user_owner"/>
@@ -902,6 +897,9 @@
       <exported-key name="fk_telefono_usuario1" table="telefono" schema="datos_usuario" catalog="EonLt_DB" columns="usuario_id"/>
       <exported-key name="fk_usuario_habla_idioma_usuario1" table="usuario_habla_idioma" schema="datos_usuario" catalog="EonLt_DB" columns="usuario_id"/>
       <exported-key name="fk_usuario_tiene_perfil_usuario1" table="usuario_tiene_perfil" schema="datos_usuario" catalog="EonLt_DB" columns="usuario_id"/>
+      <exported-key name="heat_map_user_id_fkey" table="heat_map" schema="historico" catalog="EonLt_DB" columns="user_id"/>
+      <exported-key name="log_juego_usuario_usuario_id_fkey" table="log_juego_usuario" schema="juegos" catalog="EonLt_DB" columns="usuario_id"/>
+      <exported-key name="scores_user_user_id_fkey" table="scores_usuario" schema="juegos" catalog="EonLt_DB" columns="user_id"/>
       <exported-key name="fk_grupo_administrado_usuario_usuario1" table="grupo_administrado_usuario" schema="organizacion" catalog="EonLt_DB" columns="usuario_id"/>
       <exported-key name="fk_grupo_tiene_alumno_usuario1" table="grupo_tiene_alumno" schema="organizacion" catalog="EonLt_DB" columns="usuario_id"/>
       <exported-key name="fk_grupo_tiene_profesor_usuario1" table="grupo_tiene_profesor" schema="organizacion" catalog="EonLt_DB" columns="usuario_id"/>
@@ -934,6 +932,92 @@
       <primary-key name="pk_usuario_tiene_perfil_id" columns="usuario_id,perfil_id"/>
       <foreign-key name="fk_usuario_tiene_perfil_perfil1" columns="perfil_id" ref-table="perfil" ref-schema="datos_usuario" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_usuario_tiene_perfil_usuario1" columns="usuario_id" ref-table="usuario" ref-schema="datos_usuario" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
+    </table>
+    <table name="items" schema="frontend" catalog="EonLt_DB" type="TABLE">
+      <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnZnJvbnRlbmQubWVudV9pdGVtc19pZF9zZXEnOjpyZWdjbGFzcyk=" autoIncrement="true"/>
+      <column name="titulo" sqlType="bpchar" precision="20" scale="0" nullable="false" jdbcType="1"/>
+      <column name="url" sqlType="text" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="parent" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
+      <column name="folder" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7" def="ZmFsc2U="/>
+      <primary-key name="menu_items_pkey" columns="id"/>
+      <exported-key name="menu_item_item_id_fkey" table="menu_item" schema="frontend" catalog="EonLt_DB" columns="item_id"/>
+    </table>
+    <table name="menu" schema="frontend" catalog="EonLt_DB" type="TABLE">
+      <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnZnJvbnRlbmQubWVudV9pZF9zZXEnOjpyZWdjbGFzcyk=" autoIncrement="true"/>
+      <column name="nombre" sqlType="text" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="tipo_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="sitio_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="menu_pkey" columns="id"/>
+      <foreign-key name="menu_sitio_id_fkey" columns="sitio_id" ref-table="pagina_sitio" ref-schema="frontend" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="menu_tipo_fkey" columns="tipo_id" ref-table="tipo_menu" ref-schema="frontend" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="menu_item_menu_id_fkey" table="menu_item" schema="frontend" catalog="EonLt_DB" columns="menu_id"/>
+    </table>
+    <table name="menu_id_seq" schema="frontend" catalog="EonLt_DB" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="menu_item" schema="frontend" catalog="EonLt_DB" type="TABLE">
+      <column name="menu_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="item_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="menu_item_pkey" columns="menu_id,item_id"/>
+      <foreign-key name="menu_item_item_id_fkey" columns="item_id" ref-table="items" ref-schema="frontend" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="menu_item_menu_id_fkey" columns="menu_id" ref-table="menu" ref-schema="frontend" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="menu_items_id_seq" schema="frontend" catalog="EonLt_DB" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="pagina_sitio" schema="frontend" catalog="EonLt_DB" type="TABLE">
+      <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnZnJvbnRlbmQucGFnaW5hX3NpdGlvX2lkX3NlcSc6OnJlZ2NsYXNzKQ==" autoIncrement="true"/>
+      <column name="nombre" sqlType="text" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="pagina_sitio_pkey" columns="id"/>
+      <exported-key name="menu_sitio_id_fkey" table="menu" schema="frontend" catalog="EonLt_DB" columns="sitio_id"/>
+    </table>
+    <table name="pagina_sitio_id_seq" schema="frontend" catalog="EonLt_DB" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="tipo_menu" schema="frontend" catalog="EonLt_DB" type="TABLE">
+      <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnZnJvbnRlbmQudGlwb19tZW51X2lkX3NlcSc6OnJlZ2NsYXNzKQ==" autoIncrement="true"/>
+      <column name="nombre" sqlType="bpchar" precision="20" scale="0" nullable="false" jdbcType="1"/>
+      <primary-key name="tipo_menu_pkey" columns="id"/>
+      <exported-key name="menu_tipo_fkey" table="menu" schema="frontend" catalog="EonLt_DB" columns="tipo_id"/>
+    </table>
+    <table name="tipo_menu_id_seq" schema="frontend" catalog="EonLt_DB" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
     </table>
     <table name="ciudad" schema="geolocalizacion" catalog="EonLt_DB" type="TABLE">
       <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnZ2VvbG9jYWxpemFjaW9uLmNpdWRhZF9pZF9zZXEnOjpyZWdjbGFzcyk=" autoIncrement="true"/>
@@ -1005,7 +1089,7 @@
       <column name="nombre" sqlType="varchar" precision="45" scale="0" nullable="false" jdbcType="12"/>
       <primary-key name="pk_idioma_id" columns="id"/>
       <exported-key name="antonimo_habilitado_idioma_id_fkey" table="antonimo_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
-      <exported-key name="fk_definicion_palabra_idioma" table="definicion_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
+      <exported-key name="fk_idioma_id" table="definicion_palabra" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
       <exported-key name="idioma_id_dictionar" table="diccionario" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
       <exported-key name="diccionario_habilitado_idioma_id_fkey" table="diccionario_habilitado" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
       <exported-key name="fk_etiqueta_idioma" table="etiqueta" schema="contenido_idioma" catalog="EonLt_DB" columns="idioma_id"/>
@@ -1042,6 +1126,80 @@
       <index name="uq_pais_nombre" unique="true" columns="nombre"/>
     </table>
     <table name="pais_id_seq" schema="geolocalizacion" catalog="EonLt_DB" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="elemento_clickeado" schema="historico" catalog="EonLt_DB" type="TABLE">
+      <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnaGlzdG9yaWNvLmVsZW1lbnRvX2NsaWNrZWFkb19pZF9zZXEnOjpyZWdjbGFzcyk=" autoIncrement="true"/>
+      <column name="elemento" sqlType="json" precision="2147483647" scale="0" nullable="false" jdbcType="1111"/>
+      <column name="clicks" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="heat_map_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="elemento_clickeado_pkey" columns="id"/>
+      <foreign-key name="elemento_clickeado_heat_map_id_fkey" columns="heat_map_id" ref-table="heat_map" ref-schema="historico" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="elemento_clickeado_id_seq" schema="historico" catalog="EonLt_DB" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="elemento_draggueado" schema="historico" catalog="EonLt_DB" type="TABLE">
+      <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnaGlzdG9yaWNvLmVsZW1lbnRvX2RyYWdndWVhZG9faWRfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
+      <column name="elemento" sqlType="json" precision="2147483647" scale="0" nullable="false" jdbcType="1111"/>
+      <column name="drags" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="heat_map" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="elemento_draggueado_pkey" columns="id"/>
+      <foreign-key name="elemento_draggueado_heat_map_fkey" columns="heat_map" ref-table="heat_map" ref-schema="historico" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="elemento_draggueado_id_seq" schema="historico" catalog="EonLt_DB" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="elementos_tecleados" schema="historico" catalog="EonLt_DB" type="TABLE">
+      <column name="id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="elemento" sqlType="json" precision="2147483647" scale="0" nullable="false" jdbcType="1111"/>
+      <column name="texto" sqlType="text" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="teacleado" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="heat_map" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="elementos_tecleados_pkey" columns="id"/>
+      <foreign-key name="elementos_tecleados_heat_map_fkey" columns="heat_map" ref-table="heat_map" ref-schema="historico" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="heat_map" schema="historico" catalog="EonLt_DB" type="TABLE">
+      <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnaGlzdG9yaWNvLmhlYXRfbWFwX2lkX3NlcSc6OnJlZ2NsYXNzKQ==" autoIncrement="true"/>
+      <column name="fecha_creacion" sqlType="timestamp" precision="29" scale="6" nullable="false" jdbcType="93"/>
+      <column name="user_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="imagen_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="heat_map_pkey" columns="id"/>
+      <foreign-key name="heat_map_user_id_fkey" columns="user_id" ref-table="usuario" ref-schema="datos_usuario" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="heat_map_imagen_id_fkey" columns="imagen_id" ref-table="imagen" ref-schema="multimedia" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="elemento_clickeado_heat_map_id_fkey" table="elemento_clickeado" schema="historico" catalog="EonLt_DB" columns="heat_map_id"/>
+      <exported-key name="elemento_draggueado_heat_map_fkey" table="elemento_draggueado" schema="historico" catalog="EonLt_DB" columns="heat_map"/>
+      <exported-key name="elementos_tecleados_heat_map_fkey" table="elementos_tecleados" schema="historico" catalog="EonLt_DB" columns="heat_map"/>
+      <exported-key name="log_juego_usuario_heat_map_fkey" table="log_juego_usuario" schema="juegos" catalog="EonLt_DB" columns="heat_map"/>
+    </table>
+    <table name="heat_map_id_seq" schema="historico" catalog="EonLt_DB" type="SEQUENCE">
       <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
       <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="start_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
@@ -1857,7 +2015,40 @@
       <column name="ruta" sqlType="varchar" precision="70" scale="0" nullable="false" jdbcType="12"/>
       <primary-key name="pk_juego_id" columns="id"/>
       <exported-key name="fk_user_own_juego_juego" table="usuario_dueno_juego" schema="contenido_idioma" catalog="EonLt_DB" columns="juego_id"/>
+      <exported-key name="scores_user_juego_id_fkey" table="scores_usuario" schema="juegos" catalog="EonLt_DB" columns="juego_id"/>
       <exported-key name="fk_skin_juego" table="skin" schema="juegos" catalog="EonLt_DB" columns="juego_id"/>
+    </table>
+    <table name="log_frases_jugadas" schema="juegos" catalog="EonLt_DB" type="TABLE">
+      <column name="log_juego_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="frase_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="log_frases_jugadas_pkey" columns="log_juego_id,frase_id"/>
+    </table>
+    <table name="log_juego_usuario" schema="juegos" catalog="EonLt_DB" type="TABLE">
+      <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnanVlZ29zLmxvZ19qdWVnb191c3VhcmlvX2lkX3NlcSc6OnJlZ2NsYXNzKQ==" autoIncrement="true"/>
+      <column name="juego_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="usuario_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="fecha_log" sqlType="timestamp" precision="29" scale="6" nullable="false" jdbcType="93"/>
+      <column name="heat_map" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="log_juego_usuario_pkey" columns="id"/>
+      <foreign-key name="log_juego_usuario_usuario_id_fkey" columns="usuario_id" ref-table="usuario" ref-schema="datos_usuario" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="log_juego_usuario_heat_map_fkey" columns="heat_map" ref-table="heat_map" ref-schema="historico" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="log_juego_usuario_id_seq" schema="juegos" catalog="EonLt_DB" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="log_palabras_jugadas" schema="juegos" catalog="EonLt_DB" type="TABLE">
+      <column name="log_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="palabra_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="log_palabras_jugadas_pkey" columns="log_id,palabra_id"/>
     </table>
     <table name="mgr_id_seq" schema="juegos" catalog="EonLt_DB" type="SEQUENCE">
       <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
@@ -1871,17 +2062,19 @@
       <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
     </table>
-    <table name="scores_user" schema="juegos" catalog="EonLt_DB" type="TABLE">
+    <table name="scores_usuario" schema="juegos" catalog="EonLt_DB" type="TABLE">
       <column name="id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="good" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="bad" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="juego" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="fecha_jugada" sqlType="timestamp" precision="29" scale="6" nullable="false" jdbcType="93"/>
       <column name="user_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="score_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="lifes" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="level" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="juego_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <primary-key name="scores_user_pkey" columns="id"/>
+      <foreign-key name="scores_user_user_id_fkey" columns="user_id" ref-table="usuario" ref-schema="datos_usuario" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="scores_user_juego_id_fkey" columns="juego_id" ref-table="juego" ref-schema="juegos" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="skin" schema="juegos" catalog="EonLt_DB" type="TABLE">
       <column name="id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
@@ -1936,6 +2129,7 @@
       <exported-key name="fk_imagen_tag_pal" table="imagen_habilitada" schema="contenido_idioma" catalog="EonLt_DB" columns="imagen_id"/>
       <exported-key name="fk_palabra_tiene_imagen_imagen" table="palabra_tiene_imagen" schema="contenido_idioma" catalog="EonLt_DB" columns="imagen_id"/>
       <exported-key name="fk_user_own_imagen_imagen" table="usuario_dueno_imagen" schema="contenido_idioma" catalog="EonLt_DB" columns="imagen_id"/>
+      <exported-key name="heat_map_imagen_id_fkey" table="heat_map" schema="historico" catalog="EonLt_DB" columns="imagen_id"/>
       <exported-key name="Imagen_Publicidad_Id" table="publicidad_tiene_imagen" schema="publicidades" catalog="EonLt_DB" columns="imagen"/>
       <index name="uq_imagen_ruta" unique="true" columns="ruta"/>
     </table>
@@ -3798,6 +3992,25 @@
       <index name="django_content_type_app_label_model_key" unique="true" columns="app_label,model"/>
     </table>
     <table name="django_content_type_id_seq" schema="public" catalog="EonLt_DB" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+    </table>
+    <table name="django_migrations" schema="public" catalog="EonLt_DB" type="TABLE">
+      <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnZGphbmdvX21pZ3JhdGlvbnNfaWRfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
+      <column name="app" sqlType="varchar" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="varchar" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="applied" sqlType="timestamptz" precision="35" scale="6" nullable="false" jdbcType="93"/>
+      <primary-key name="django_migrations_pkey" columns="id"/>
+    </table>
+    <table name="django_migrations_id_seq" schema="public" catalog="EonLt_DB" type="SEQUENCE">
       <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
       <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="start_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>

@@ -14,7 +14,7 @@ myApp.config(['$interpolateProvider', '$httpProvider', function($interpolateProv
 
 myApp.factory('getDiccionario', ['$http', '$q', function ($http, $q) {
     return {
-        getDefiniciones: function () {
+        getPalabras: function () {
             var deferred = $q.defer();
             $http.get('/rest/palabras/')
                 .success(function (data) {

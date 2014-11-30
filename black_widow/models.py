@@ -27,6 +27,9 @@ class Usuario(models.Model):
     telefono = models.ForeignKey(Telefono)
     direccion = models.ForeignKey(Direccion)
 
+    class Meta:
+        db_table = 'datos_usuario"."usuario'
+
 class Idioma(models.Model):
     id = models.IntegerField(primary_key=True)
     nombre = models.CharField(unique=True, max_length=45)
@@ -66,7 +69,7 @@ class Diccionario(models.Model):
     id = models.AutoField(primary_key=True)
     public_name = models.CharField(max_length=30, unique=True)
     private_name = models.CharField(max_length=30)
-    date_create = models.DateField(auto_now_add=True)
+    date_create = models.DateTimeField(auto_now_add=True)
     description = models.TextField()
     estado = models.ForeignKey('Estado', default=3)
     tipo = models.ForeignKey(TipoDiccionario)
@@ -78,5 +81,12 @@ class Diccionario(models.Model):
 class DefinicionPalabra(models.Model):
     id = models.AutoField(primary_key=True)
     definicion = models.TextField()
-    idioma_id = models.ForeignKey(Idioma)
-    palabra_id = models.ForeignKey(Palabra)
+    idioma = models.ForeignKey(Idioma)
+    palabra = models.ForeignKey(Palabra)
+    user_owner = models.ForeignKey(Usuario)
+    ascii_id = IntegerArrayField(default={})
+    habilitada = models.BooleanField(default=True)
+    diccionario = models.ForeignKey(Diccionario, default=6)
+
+    class Meta:
+        db_table = 'contenido_idioma"."definicion_palabra'

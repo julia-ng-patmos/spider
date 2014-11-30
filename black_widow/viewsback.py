@@ -1,9 +1,13 @@
 from requests import Response
 from rest_framework import viewsets, permissions
-from .models import Palabra, Estado, Idioma, Diccionario, TipoDiccionario
-from .serializer import PalabraSerializer, EstadoSerializer, IdiomaSerializer, otherSerializer, DiccionarioSerializer, TipoDiccionarioSerializer
+from .models import Palabra, Estado, Idioma, Diccionario, TipoDiccionario, DefinicionPalabra, Usuario
+from .serializer import PalabraSerializer, EstadoSerializer, IdiomaSerializer, otherSerializer, DiccionarioSerializer, TipoDiccionarioSerializer, DefinicionPalabraSerializer, UsuarioSerializer
 
 # Create your views here.
+
+class UsuarioViewSet(viewsets.ModelViewSet):
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioSerializer
 
 class PalabrasViewSet(viewsets.ModelViewSet):
     queryset = Palabra.objects.all()
@@ -25,6 +29,10 @@ class IdiomaViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Idioma.objects.all()
     serializer_class = IdiomaSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+class DefinicionViewSet(viewsets.ModelViewSet):
+    queryset = DefinicionPalabra.objects.all()
+    serializer_class = DefinicionPalabraSerializer
 
 
 class PalabrasFilterContainViewSet(viewsets.ViewSet):
