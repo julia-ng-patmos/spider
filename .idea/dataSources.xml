@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="4001384013">
+  <component name="DataSourceManagerImpl" format="xml" hash="2633587207">
     <data-source source="LOCAL" name="Django default" uuid="92647fed-a838-4769-86fc-6d1a839b60c8">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
