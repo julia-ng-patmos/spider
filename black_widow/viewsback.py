@@ -1,7 +1,8 @@
-from requests import Response
+from django.shortcuts import _get_queryset
+from rest_framework.response import Response
 from rest_framework import viewsets, permissions
 from .models import Palabra, Estado, Idioma, Diccionario, TipoDiccionario, DefinicionPalabra, Usuario
-from .serializer import PalabraSerializer, EstadoSerializer, IdiomaSerializer, otherSerializer, DiccionarioSerializer, TipoDiccionarioSerializer, DefinicionPalabraSerializer, UsuarioSerializer
+from .serializer import PalabraSerializer, EstadoSerializer, IdiomaSerializer, otherSerializer, DiccionarioSerializer, TipoDiccionarioSerializer, DefinicionPalabraSerializer, UsuarioSerializer, DefinicionPalabraOfSerializer
 
 # Create your views here.
 
@@ -34,6 +35,12 @@ class DefinicionViewSet(viewsets.ModelViewSet):
     queryset = DefinicionPalabra.objects.all()
     serializer_class = DefinicionPalabraSerializer
 
+class DefinicionPalabraOfViewSet(viewsets.ViewSet):
+    def retrieve(self, request, pk=None):
+        queryset = DefinicionPalabra.objects.filter(palabra=pk)
+        serializer = DefinicionPalabraOfSerializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 class PalabrasFilterContainViewSet(viewsets.ViewSet):
     def retrieve(self, request, pk=None, pk1=None):
@@ -46,10 +53,15 @@ class PalabrasFilterContainViewSet(viewsets.ViewSet):
             queryset = Palabra.objects.filter(nombre__iendswith=pk)
         elif pk1 == 'long':
             queryset = Palabra.objects.extra(where={'LENGTH(nombre) =' + pk})
+        elif pk1 == 'equal':
+            queryset = Palabra.objects.get(nombre__iexact = pk)
         else:
             queryset = None
         if queryset == None:
             return Response('Page not found')
+        elif pk1 == 'equal':
+            serializer = otherSerializer(queryset)
+            return Response(serializer.data)
         else:
             serializer = otherSerializer(queryset, many=True)
             return Response(serializer.data)

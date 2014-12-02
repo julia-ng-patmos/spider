@@ -31,6 +31,11 @@ class DefinicionPalabraSerializer(serializers.HyperlinkedModelSerializer):
         model = DefinicionPalabra
         fields = ('id','definicion','idioma','palabra','user_owner','ascii_id','habilitada','diccionario',)
 
+class DefinicionPalabraOfSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DefinicionPalabra
+        fields = ('id','definicion','diccionario',)
+
 class TipoDiccionarioSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = TipoDiccionario

@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
-from .viewsback import PalabrasViewSet, IdiomaViewSet, EstadoViewSet, PalabrasFilterContainViewSet, DiccionarioViewSet, TipoDiccionarioViewSet, DefinicionViewSet, UsuarioViewSet
+from .viewsback import PalabrasViewSet, IdiomaViewSet, EstadoViewSet, PalabrasFilterContainViewSet, DiccionarioViewSet, TipoDiccionarioViewSet, DefinicionViewSet, UsuarioViewSet, DefinicionPalabraOfViewSet
 
 usuario_detail = UsuarioViewSet.as_view({
     'get': 'retrieve',
@@ -12,6 +12,10 @@ palabras_list = PalabrasViewSet.as_view({
 })
 
 palabra_filter1 = PalabrasFilterContainViewSet.as_view({
+    'get': 'retrieve'
+})
+
+definicion_filter = DefinicionPalabraOfViewSet.as_view({
     'get': 'retrieve'
 })
 
@@ -64,9 +68,10 @@ urlpatterns2 = format_suffix_patterns([
     url(r'^usuario/(?P<pk>[0-9]+)/$', usuario_detail, name='usuario-detail'),
     url(r'^palabras/$', palabras_list, name='palabras-list'),
     url(r'^palabra/(?P<pk>[0-9]+)/$', palabra_detail, name='palabra-detail'),
-    url(r'^palabras/filterby/(?P<pk1>[a-z]+)/(?P<pk>[a-z-0-9]+)/$', palabra_filter1, name='filter-detail'),
+    url(r'^palabras/filterby/(?P<pk1>[a-z]+)/(?P<pk>[a-z-0-9]+)$', palabra_filter1, name='filter-detail'),
     url(r'^diccionarios/$', diccionario_list, name='diccionario-list'),
     url(r'^diccionario/(?P<pk>[0-9]+)$', diccionario_detail, name='diccionario-detail'),
+    url(r'^defin/filter/(?P<pk>[0-9]+)$',definicion_filter, name='definicionfilter-detail'),
     url(r'^defpalabra/$', defini_palabra, name='defpalabra-list'),
     url(r'^tipodiccionario/(?P<pk>[0-9]+)/$', tipo_diccionario_detail, name='tipodiccionario-detail'),
     url(r'^idiomas/$', idiomas_list, name='idiomas-list'),

@@ -14,5 +14,6 @@ urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^rest/', include(urlpatterns2)),
                        url(r'^$', 'black_widow.views.index'),
+                       url(r'^getdef$', 'black_widow.views.getdef'),
 
 ) + static.static('/', document_root=FRONTEND_URL)

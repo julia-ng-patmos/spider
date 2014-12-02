@@ -2,7 +2,7 @@
  * Created by eon on 25/11/14.
  */
 
-var myApp = angular.module("mySpider", ['eonModal']);
+var myApp = angular.module("mySpider", []);
 
 myApp.config(['$interpolateProvider', '$httpProvider', function($interpolateProvider, $httpProvider){
     $interpolateProvider.startSymbol('{[{');
@@ -26,7 +26,7 @@ myApp.factory('getDiccionario', ['$http', '$q', function ($http, $q) {
         },
         getDefinicion: function (palabra) {
             var deferred = $q.defer();
-            $http.get('http://api.wordnik.com:80/v4/word.json/'+palabra+'/definitions?limit=200&includeRelated=true&sourceDictionaries='+'wordnet'+'&useCanonical=false&includeTags=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5')
+            $http.get('http://api.wordnik.com:80/v4/word.json/'+palabra+'/definitions?limit=200&includeRelated=true&sourceDictionaries='+'gcide'+'&useCanonical=false&includeTags=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5')
                 .success(function (data) {
                     deferred.resolve(data)
                 }).error(function (error) {
@@ -81,13 +81,13 @@ myApp.controller("busquedaCtrl", ['$scope', 'getDiccionario', function ($scope, 
                             defini.forEach(function (ele2, index2, array2) {
                                 var miDef = ele2;
                                 var miData = {
-                                    "definicion": miDef.text || 'not definicion',
+                                    "defin": miDef.text || 'not defin',
                                     "idioma": palabra.idioma,
                                     "palabra": palabra.url,
                                     "user_owner": 'http://localhost:8000/rest/usuario/1/',
                                     "ascii_id": palabra.id_ascii,
                                     "habilitada" : true,
-                                    "diccionario" : 'http://localhost:8000/rest/diccionario/4'
+                                    "diccionario" : 'http://localhost:8000/rest/diccionario/3'
                                 };
                                 var evento = getDiccionario.putDefinicion(miData);
                                 evento.then(function (suceso) {

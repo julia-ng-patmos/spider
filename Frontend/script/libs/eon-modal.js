@@ -15,20 +15,20 @@ myApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
     });
 
 myApp.controller('modalCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
+    $scope.open = function (size,contenido) {
+        var modalInstance = $modal.open({
+            templateUrl: 'views/'+contenido+'.html',
+            controller: 'busquedaCtrl',
+            size: 'lg'
+        });
 
-        $scope.open = function (size,contenido) {
-            var modalInstance = $modal.open({
-                templateUrl: 'views/'+contenido+'.html',
-                controller: 'ModalInstanceCtrl',
-                size: 'lg'
-            });
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selected = selectedItem;
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    };
 
-            modalInstance.result.then(function (selectedItem) {
-                $scope.selected = selectedItem;
-            }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
-            });
-        };
 }]);
 
 myApp.directive('eonModal', function($rootScope) {
