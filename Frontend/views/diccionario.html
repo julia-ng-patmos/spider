@@ -36,10 +36,11 @@ Parte del diccionario que se muestra el audio
     <h3 class="modal-title">Diccionario</h3>
     </div>
     <div class="modal-body">
-        <div id="miReproductor"></div>
-    </div>
 
-    <img ng-repeat="image in imgUrls" src="{[{image.url}]}" id="{[{image.name}]}" ng-click="miPalabraForDict(image.id)" class="img-circle imgClickDict">
+    </div>
+    <img ng-src="{[{ urlAudioImg }]}" ng-click="stopMusik()" class="imgStopSound">{[{nameRepro}]}
+    <img ng-repeat="image in [1,2,3,4,5,6]" src="multimedia/img/audios.jpeg" ng-click="reproAudio(image)" class="img-circle imgPlaySound">
+    <img ng-repeat="image in imgUrls" src="{[{image.url}]}" id="{[{image.name}]}" ng-click="myElementRepro(image.id)" class="img-circle imgClickDict">
 </div>
 
 

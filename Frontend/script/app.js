@@ -137,7 +137,7 @@ myApp.controller("busquedaCtrl", ['$scope', 'getDiccionario', function ($scope, 
         {id: 5, name : 'Century Dictionary and Cyclopedia', urlImgLogo : '/multimedia/img/century.jpg'},
         {id: 6, name : 'Eon Dictionary for all users', urlImgLogo : '/multimedia/img/ahd.png'},
         {id: 7, name : 'Encyclopedia Britannica Company', urlImgLogo : '/multimedia/img/webster.png'}
-    ]
+    ];
 
     /****************************************************************************************
      * ************************************************************************************/
@@ -147,11 +147,24 @@ myApp.controller("busquedaCtrl", ['$scope', 'getDiccionario', function ($scope, 
     Trozo de codigo para crear el audio
     **********************************/
 
-    var audio = document.createElement('audio');
-    audio.src = '/multimedia/audio/1.mp3';
-    var duracion = parseInt(audio.duration);
-    audio.play();
-    console.log(duracion);
+    $scope.reproAudio = function (id) {
+        console.log(id);
+        var audio = document.createElement('audio');
+        audio.src = '/multimedia/audio/'+id+'.mp3';
+        audio.play();
+        $scope.urlAudioImg = '/multimedia/img/stop.png';
+
+        $scope.stopMusik = function(){
+            audio.pause();
+            audio.currentTime = 0;
+            $scope.urlAudioImg = '/multimedia/img/play.png';
+
+        };
+
+        $scope.myElementRepro = function (id) {
+            $scope.nameRepro = id;
+        }
+    };
 
 
     /**********************************
