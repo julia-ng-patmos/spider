@@ -1,16 +1,48 @@
-<div class="modal-header">
+<!--
+*********************************************
+Parte del diccionario que se muestra el texto
+*********************************************
+-->
+
+<div ng-show="viendo == 'texto'">
+    <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
     <h3 class="modal-title">Diccionario</h3>
-</div>
-<div class="modal-body">
-    <div class="row">
-        <div class="col-md-6 panel-info"><div class="panel-heading">{[{title}]}</div><div class="panel-body definicion">{[{defin.a}]}</div></div>
-        <div class="col-md-6 panel-info"><div class="panel-heading">{[{title}]}</div><div class="panel-body definicion"><img class="imgdict img-rounded" ng-src="{[{imagenDicUrl}]}"></div></div>
     </div>
-    <div class="row">
-        <div class="col-md-6 panel-info"><div class="panel-heading">{[{title}]}</div><div class="panel-body definicion">{[{defin.b}]}</div></div>
-        <div class="col-md-6 panel-info"><div class="panel-heading">{[{title}]}</div><div class="panel-body definicion">{[{defin.c}]}</div></div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6 panel-info"><div class="panel-heading">{[{title}]}</div><div class="panel-body definicion">{[{defin.a}]}</div></div>
+            <div class="col-md-6 panel-info"><div class="panel-heading">{[{title}]}</div><div class="panel-body definicion"><img class="imgdict img-rounded" ng-src="{[{imagenDicUrl}]}"></div></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 panel-info"><div class="panel-heading">{[{title}]}</div><div class="panel-body definicion">{[{defin.b}]}</div></div>
+            <div class="col-md-6 panel-info"><div class="panel-heading">{[{title}]}</div><div class="panel-body definicion">{[{defin.c}]}</div></div>
+        </div>
     </div>
+
+    <img ng-repeat="image in imgUrls" src="{[{image.url}]}" id="{[{image.name}]}" ng-click="miPalabraForDict(image.id)" class="img-circle imgClickDict">
+    <img ng-repeat="imag in dictAval | filter:customArrayFilter" src="{[{imag.urlImgLogo}]}" ng-click="miDiccionario(imag.id)" class="imgClickDict">
 </div>
 
-<img ng-repeat="image in imgUrls" src="{[{image.url}]}" id="{[{image.name}]}" ng-click="miDiccionario(image.name)" class="img-responsive img-circle imgClickDict">
+<!--
+*********************************************
+Parte del diccionario que se muestra el audio
+*********************************************
+-->
+
+<div ng-show="viendo == 'audio'">
+    <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h3 class="modal-title">Diccionario</h3>
+    </div>
+    <div class="modal-body">
+        <div id="miReproductor"></div>
+    </div>
+
+    <img ng-repeat="image in imgUrls" src="{[{image.url}]}" id="{[{image.name}]}" ng-click="miPalabraForDict(image.id)" class="img-circle imgClickDict">
+</div>
+
+
+<button ng-click="quieroVer('texto')">Texto</button>
+<button ng-click="quieroVer('audio')">Audio</button>
+<button ng-click="quieroVer('imagen')">Imagen</button>

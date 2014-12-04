@@ -55,11 +55,13 @@ class PalabrasFilterContainViewSet(viewsets.ViewSet):
             queryset = Palabra.objects.extra(where={'LENGTH(nombre) =' + pk})
         elif pk1 == 'equal':
             queryset = Palabra.objects.get(nombre__iexact = pk)
+        elif pk1 == 'indice':
+            queryset = Palabra.objects.get(pk=pk);
         else:
             queryset = None
         if queryset == None:
             return Response('Page not found')
-        elif pk1 == 'equal':
+        elif pk1 == 'equal' or pk1 == 'indice':
             serializer = otherSerializer(queryset)
             return Response(serializer.data)
         else:

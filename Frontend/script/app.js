@@ -14,19 +14,24 @@ myApp.config(['$interpolateProvider', '$httpProvider', function($interpolateProv
 
 myApp.factory('getDiccionario', ['$http', '$q', function ($http, $q) {
     return {
-        getDefinicion: function (id) {
-            var deferred = $q.defer();
-            $http.get('rest/defin/filter/'+id)
-                .success(function (great) {
-                    deferred.resolve(great)
-                }).error(function (sorry) {
-                    deferred.reject(sorry)
-                });
-            return deferred.promise;
+        getDefiniciones: function (ids) {
+            misPromesas = [];
+            ids.forEach(function (ele, index, array) {
+               var deferred = $q.defer();
+                $http.get('rest/defin/filter/'+ele)
+                    .success(function (great) {
+                        deferred.resolve(great)
+                    }).error(function (sorry) {
+                        deferred.reject(sorry)
+                    });
+                misPromesas.push(deferred.promise);
+            });
+            var allPromises = $q.all(misPromesas);
+            return allPromises;
         },
-        getPalabra: function (palabra) {
+        getPalabra: function (palabras) {
             var deferred = $q.defer();
-            $http.get('rest/palabras/filterby/equal/'+palabra)
+            $http.get('rest/palabras/filterby/indice/'+palabra)
                 .success(function (exito) {
                     deferred.resolve(exito)
                 })
@@ -39,36 +44,117 @@ myApp.factory('getDiccionario', ['$http', '$q', function ($http, $q) {
 }]);
 
 myApp.controller("busquedaCtrl", ['$scope', 'getDiccionario', function ($scope, getDiccionario) {
-    $scope.miDiccionario = function (palabra) {
-        var pal = palabra.toLowerCase();
-        var miPalabra = getDiccionario.getPalabra(pal);
-        $scope.title = palabra;
-        $scope.imagenDicUrl = '/multimedia/img/'+pal+'.jpg';
-        $scope.defin = {};
-        miPalabra.then(
-            function (verywell) {
-                var definiciones = getDiccionario.getDefinicion(verywell.id);
-                definiciones.then(
-                    function (great) {
-                        $scope.defin.a = great[0].definicion;
-                        $scope.defin.b = great[1].definicion;
-                        $scope.defin.c = great[2].definicion;
-                    },
-                    function (bad) {
-                        console.log(bad)
-                    })
-            },
-            function (wrong) {
-                console.log(wrong)
+
+
+    /******************************************
+    Trozo de codigo para crear el diccionario
+    *******************************************/
+
+    var diccionarioScheme = [];
+    var misPalabritas = [10,31,51,1907,2938];
+    $scope.imgUrls = [
+        {id: 10,name:"Cat", url:"/multimedia/img/cat.jpg"},
+        {id: 31,name:"Dog", url:"/multimedia/img/dog.jpg"},
+        {id: 51,name:"Rabbit", url:"/multimedia/img/rabbit.jpg"},
+        {id: 1907,name:"Notebook", url:"/multimedia/img/notebook.jpg"},
+        {id: 2938,name:"Red", url:"/multimedia/img/red.jpg"}
+    ];
+
+    var misdefiniciones = getDiccionario.getDefiniciones(misPalabritas);
+    misdefiniciones.then(
+        function (definiciones) {
+            definiciones.forEach(function (ele, index, array) {
+                data = {};
+                var pal = $scope.imgUrls[index];
+                data.id = pal.id;
+                data.nombre = pal.name;
+                data.url = '/multimedia/img/'+pal.name.toLowerCase()+'.jpg';
+                data.diccionarios = [];
+                for (var j = 0;j < ele.length; j++){
+                  var g = ele[j];
+                    if(!data.diccionarios[g.diccionario]){
+                        data.diccionarios[g.diccionario] = []
+                    }
+                  data.diccionarios[g.diccionario].push({
+                      defin : g.definicion,
+                      example : ''
+                  });
+                }
+                diccionarioScheme.push(data);
+            });
+            console.log(diccionarioScheme);
+        },
+        function (error) {
+            console.log(error)
+        }
+    );
+
+    $scope.viendo = 'texto';
+    $scope.quieroVer = function(ver){
+        $scope.viendo = ver;
+    }
+
+    var dictHabilitados = [], palabraElegida;
+    $scope.miPalabraForDict = function(idPalabra){
+        for(var n = 0; n < diccionarioScheme.length; n++){
+            if(diccionarioScheme[n].id == idPalabra){
+                palabraElegida = n;
+                dictHabilitados = [];
+                var palabra = diccionarioScheme[n];
+                console.log(palabra);
+                palabra.diccionarios.forEach(function (ele, index, array) {
+                    dictHabilitados.push(index);
+                });
+                console.log(dictHabilitados);
             }
-        );
+        }
+
     };
 
-    $scope.imgUrls = [
-        {name:"Cat", url:"/multimedia/img/cat.jpg"},
-        {name:"Dog", url:"/multimedia/img/dog.jpg"},
-        {name:"Rabbit", url:"/multimedia/img/rabbit.jpg"},
-        {name:"Notebook", url:"/multimedia/img/notebook.jpg"},
-        {name:"Red", url:"/multimedia/img/red.jpg"}
+     $scope.miDiccionario = function (idDiccionario) {
+        var palabra = diccionarioScheme[palabraElegida];
+        $scope.title = palabra.nombre;
+        $scope.imagenDicUrl = palabra.url;
+        $scope.defin = {};
+        $scope.defin.a = (palabra.diccionarios[idDiccionario][1]) ? palabra.diccionarios[idDiccionario][1].defin : 'No tenemos definiciones. Ayudanos a construirla';
+        $scope.defin.b = (palabra.diccionarios[idDiccionario][2]) ? palabra.diccionarios[idDiccionario][2].defin : 'No tenemos definiciones. Ayudanos a construirla';
+        $scope.defin.c = (palabra.diccionarios[idDiccionario][3]) ? palabra.diccionarios[idDiccionario][3].defin : 'No tenemos definiciones. Ayudanos a construirla';
+    };
+
+    $scope.customArrayFilter = function (item) {
+        for(var dfg = 0; dfg < dictHabilitados.length; dfg++){
+              if(item.id == dictHabilitados[dfg]){
+                  return true
+              }
+        }
+    };
+
+    $scope.dictAval = [
+        {id: 1, name : 'American Heritage® Dictionary of the English Language', urlImgLogo : '/multimedia/img/ahd.png'},
+        {id: 2, name : 'Wiktionary Creative Commons Attribution', urlImgLogo : '/multimedia/img/wiktionary.png'},
+        {id: 3, name : 'GNU version of the Collaborative International Dictionary', urlImgLogo : '/multimedia/img/gnu.png'},
+        {id: 4, name : 'WordNet 3.0 Copyright 2006 by Princeton University', urlImgLogo : '/multimedia/img/wordnet.png'},
+        {id: 5, name : 'Century Dictionary and Cyclopedia', urlImgLogo : '/multimedia/img/century.jpg'},
+        {id: 6, name : 'Eon Dictionary for all users', urlImgLogo : '/multimedia/img/ahd.png'},
+        {id: 7, name : 'Encyclopedia Britannica Company', urlImgLogo : '/multimedia/img/webster.png'}
     ]
-}]);
+
+    /****************************************************************************************
+     * ************************************************************************************/
+
+
+    /**********************************
+    Trozo de codigo para crear el audio
+    **********************************/
+
+    var audio = document.createElement('audio');
+    audio.src = '/multimedia/audio/1.mp3';
+    var duracion = parseInt(audio.duration);
+    audio.play();
+    console.log(duracion);
+
+
+    /**********************************
+     * ********************************/
+
+ }]);
