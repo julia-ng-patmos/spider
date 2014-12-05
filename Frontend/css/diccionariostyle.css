@@ -31,3 +31,16 @@
     cursor: pointer;
     margin-left: 20px;
 }
+
+.imgPlayImage{
+    width: 70px;
+    height: 70px;
+    float: left;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.imgPlayImageBig{
+    width: 100%;
+    height: 100%;
+}

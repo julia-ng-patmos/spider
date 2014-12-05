@@ -82,7 +82,6 @@ myApp.controller("busquedaCtrl", ['$scope', 'getDiccionario', function ($scope, 
                 }
                 diccionarioScheme.push(data);
             });
-            console.log(diccionarioScheme);
         },
         function (error) {
             console.log(error)
@@ -92,7 +91,7 @@ myApp.controller("busquedaCtrl", ['$scope', 'getDiccionario', function ($scope, 
     $scope.viendo = 'texto';
     $scope.quieroVer = function(ver){
         $scope.viendo = ver;
-    }
+    };
 
     var dictHabilitados = [], palabraElegida;
     $scope.miPalabraForDict = function(idPalabra){
@@ -101,11 +100,9 @@ myApp.controller("busquedaCtrl", ['$scope', 'getDiccionario', function ($scope, 
                 palabraElegida = n;
                 dictHabilitados = [];
                 var palabra = diccionarioScheme[n];
-                console.log(palabra);
                 palabra.diccionarios.forEach(function (ele, index, array) {
                     dictHabilitados.push(index);
                 });
-                console.log(dictHabilitados);
             }
         }
 
@@ -168,6 +165,24 @@ myApp.controller("busquedaCtrl", ['$scope', 'getDiccionario', function ($scope, 
 
 
     /**********************************
-     * ********************************/
+     **********************************/
 
+
+    /**************************************
+    Trozo de codigo para crear el Imagenes
+    **************************************/
+
+    $scope.imgsDictUrls = [
+        {id: 1,name:"Dog", url:"/multimedia/img/perro1.jpg"},
+        {id: 2,name:"Dog2", url:"/multimedia/img/perro2.jpg"},
+        {id: 3,name:"Dog3", url:"/multimedia/img/perro3.png"},
+        {id: 4,name:"Dog4", url:"/multimedia/img/perro4.jpg"}
+    ];
+
+    $scope.mostrarImagen = function (id) {
+        $scope.MostrarEstaImagen = id;
+    };
+
+    /**********************************
+     **********************************/
  }]);
